@@ -1,4 +1,4 @@
-﻿# Remplacer par spordle.ps1
+# Remplacer par spordle.ps1
 # Paramètres
 $scriptDir = $PSScriptRoot  # Répertoire où le script est exécuté
 $excelFilePath = [System.IO.Path]::GetFullPath((Join-Path $scriptDir "horraire.xlsx"))
@@ -150,7 +150,7 @@ $matchesToday = $matches | Where-Object {
 
 if ($matchesToday) {
     # Construire le tableau des matchs avec un format visuel
-    $introMessage = "Venez encourager nos Titans ! Voici les matchs de la journée sur nos terrains:`n`n"
+    $introMessage = "Venez encourager nos Monarques ! Voici les matchs de la journée sur nos terrains:`n`n"
     $tableHeader = "⚾ Matchs de la journée ($currentDate) ⚾`n`n"
     $tableContent = ""
 
@@ -192,11 +192,11 @@ if ($matchesToday) {
         Write-Output "Parties (Home Team) : $($homeTeamParts -join ', ')"
         Write-Output "Parties (Away Team) : $($awayTeamParts -join ', ')"
 
-        # Recombiner les parties dans le nouveau format : "TITANS 2 9UA"
+        # Recombiner les parties dans le nouveau format : "MONARQUES 2 9UA"
         if ($homeTeamParts.Length -eq 3) {
-            $homeTeamBase = $homeTeamParts[0]  # Ex: "TITANS 2" (déjà correct, car il y a un espace dans le nom)
+            $homeTeamBase = $homeTeamParts[0]  # Ex: "MONARQUES 2" (déjà correct, car il y a un espace dans le nom)
             $homeTeamLevelAndCategory = $homeTeamParts[1] + $homeTeamParts[2]  # Ex: "9UA"
-            $homeTeam = "$homeTeamBase $homeTeamLevelAndCategory"  # Ex: "TITANS 2 9UA"
+            $homeTeam = "$homeTeamBase $homeTeamLevelAndCategory"  # Ex: "MONARQUES 2 9UA"
         } else {
             $homeTeam = $homeTeamParts -join " "  # Cas où il n'y a pas assez de parties
         }

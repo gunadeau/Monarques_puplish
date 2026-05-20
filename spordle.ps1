@@ -1,8 +1,8 @@
-﻿# Paramètres Spordle
+# Paramètres Spordle
 $loginname = "gunadeau@hotmail.com"
 $loginUrl = "https://play.spordle.com/login"
 $pass = $env:SPORDLE_PASS  # Remplacez par votre mot de passe
-$gamesUrl = "https://play.spordle.com/games?displayedFilters=%7B%7D&filter=%7B%22seasonId%22%3A%222026-27%22%2C%22_include%22%3A%5B%22gameBracket%22%2C%22shootouts%22%5D%2C%22assignOffices%22%3A%5B3777%5D%7D&order=ASC&order=ASC&order=ASC&page=1&perPage=25&sort=date&sort=startTime&sort=number"
+$gamesUrl = "https://play.spordle.com/games?displayedFilters=%7B%7D&filter=%7B%22seasonId%22%3A%222026-27%22%2C%22_include%22%3A%5B%22gameBracket%22%2C%22shootouts%22%5D%2C%22assignOffices%22%3A%5B4056%5D%7D&order=ASC&order=ASC&order=ASC&page=1&perPage=25&sort=date&sort=startTime&sort=number"
 $testDate = Get-Date  # "2025-06-07"
 
 # Paramètres Facebook
@@ -289,7 +289,7 @@ function Get-SpordleMatches {
                                 $teams = @()
                                 foreach ($teamEl in $teamElements) {
                                     $teamText = $teamEl.Text.Trim()
-                                    if ($teamText -match 'TITANS|[A-Z]+.*\d+.*[A-Z]' -and $teamText -notmatch '^Game|^Parc|^Terrain') {
+                                    if ($teamText -match 'MONARQUES|TITANS|[A-Z]+.*\d+.*[A-Z]' -and $teamText -notmatch '^Game|^Parc|^Terrain') {
                                         $teams += $teamText
                                     }
                                 }
@@ -337,10 +337,10 @@ function Get-SpordleMatches {
                                 if (-not [string]::IsNullOrEmpty($matchInfo.AwayTeam)) {
                                     # Même logique pour l'équipe visiteur
                                     if ($matchInfo.AwayTeam -match '^([A-Z]+(?:\s+\d+)?).*?(\d+U).*?([AB])') {
-                                        $teamName = $matches[1].Trim()  # "TITANS 5" ou "JAYS"
+                                        $teamName = $matches[1].Trim()  # "MONARQUES 5" ou "TITANS 5" ou "JAYS"
                                         $ageGroup = $matches[2]         # "9U" ou "13U"
                                         $division = $matches[3]         # "B" ou "A"
-                                        $matchInfo.AwayTeam = "$teamName $ageGroup$division"  # "TITANS 5 9UB" ou "JAYS 13UA"
+                                        $matchInfo.AwayTeam = "$teamName $ageGroup$division"  # "MONARQUES 5 9UB" ou "JAYS 13UA"
                                     }
                                     Write-Host "DEBUG: AwayTeam simplifié : '$($matchInfo.AwayTeam)'"
                                 }
@@ -521,7 +521,7 @@ try {
             
             # Construire le message Facebook
             $currentDate = $TestDate.ToString("yyyy-MM-dd")  # Utiliser la date de test
-            $introMessage = "Venez encourager nos Titans ! Voici les matchs de la journée sur nos terrains:`n`n"
+            $introMessage = "Venez encourager nos Monarques ! Voici les matchs de la journée sur nos terrains:`n`n"
             $tableHeader = "⚾ Matchs de la journée ($currentDate) ⚾`n`n"
             $tableContent = ""
 
