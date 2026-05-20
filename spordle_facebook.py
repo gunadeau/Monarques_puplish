@@ -112,17 +112,11 @@ class ImageProcessor:
                 new_width = max(1, new_width)
                 new_height = max(1, new_height)
                 
-                # Redimensionner l'image
+                # Redimensionner l'image en conservant son ratio (pas de fond blanc forcé)
                 resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
                 
-                # Créer une image carrée avec fond blanc
-                final_img = Image.new('RGB', (target_size, target_size), 'white')
-                x_offset = (target_size - new_width) // 2
-                y_offset = (target_size - new_height) // 2
-                final_img.paste(resized_img, (x_offset, y_offset))
-                
-                # Sauvegarder
-                final_img.save(destination_path, 'PNG', quality=95)
+                # Sauvegarder directement sans ajouter de bordures blanches
+                resized_img.save(destination_path, 'PNG', quality=95)
                 
                 file_size = os.path.getsize(destination_path)
                 logger.info(f"Image sauvegardée: {destination_path} ({file_size/1024:.1f} KB)")
