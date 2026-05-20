@@ -325,22 +325,22 @@ function Get-SpordleMatches {
                                     # Pattern pour différents formats :
                                     # "TOROS 3 - 9U - B - Masculin - LOTBINIÈRE" -> "TOROS 3 9UB"
                                     # "JAYS - 13U - A - MASCULIN - SUD DE LA BEAUCE" -> "JAYS 13UA"
-                                    if ($matchInfo.HomeTeam -match '^([A-Z]+(?:\s+\d+)?).*?(\d+U).*?([AB])') {
-                                        $teamName = $matches[1].Trim()  # "TOROS 3" ou "JAYS"
+                                    if ($matchInfo.HomeTeam -match '^([A-Za-zÀ-ÿ\-]+(?:\s+[A-Za-zÀ-ÿ0-9\-]+)*?)\s*(?:-)?\s*(\d+U|Junior|Senior|Midget|Bantam|Peewee|Moustique|Atome|Novice).*?([AB]{1,2})(?![A-Za-z])') {
+                                        $teamName = $matches[1].Trim()  # "MONARQUES BLEU" ou "TITANS 5" ou "JAYS"
                                         $ageGroup = $matches[2]         # "9U" ou "13U"
-                                        $division = $matches[3]         # "B" ou "A"
-                                        $matchInfo.HomeTeam = "$teamName $ageGroup$division"  # "TOROS 3 9UB" ou "JAYS 13UA"
+                                        $division = $matches[3]         # "B" ou "AA"
+                                        $matchInfo.HomeTeam = "$teamName $ageGroup$division"  # "MONARQUES BLEU 13UAA" ou "JAYS 13UA"
                                     }
                                     Write-Host "DEBUG: HomeTeam simplifié : '$($matchInfo.HomeTeam)'"
                                 }
                                 
                                 if (-not [string]::IsNullOrEmpty($matchInfo.AwayTeam)) {
                                     # Même logique pour l'équipe visiteur
-                                    if ($matchInfo.AwayTeam -match '^([A-Z]+(?:\s+\d+)?).*?(\d+U).*?([AB])') {
-                                        $teamName = $matches[1].Trim()  # "MONARQUES 5" ou "TITANS 5" ou "JAYS"
+                                    if ($matchInfo.AwayTeam -match '^([A-Za-zÀ-ÿ\-]+(?:\s+[A-Za-zÀ-ÿ0-9\-]+)*?)\s*(?:-)?\s*(\d+U|Junior|Senior|Midget|Bantam|Peewee|Moustique|Atome|Novice).*?([AB]{1,2})(?![A-Za-z])') {
+                                        $teamName = $matches[1].Trim()  # "MONARQUES BLEU" ou "TITANS 5" ou "JAYS"
                                         $ageGroup = $matches[2]         # "9U" ou "13U"
-                                        $division = $matches[3]         # "B" ou "A"
-                                        $matchInfo.AwayTeam = "$teamName $ageGroup$division"  # "MONARQUES 5 9UB" ou "JAYS 13UA"
+                                        $division = $matches[3]         # "B" ou "AA"
+                                        $matchInfo.AwayTeam = "$teamName $ageGroup$division"  # "MONARQUES BLEU 13UAA" ou "JAYS 13UA"
                                     }
                                     Write-Host "DEBUG: AwayTeam simplifié : '$($matchInfo.AwayTeam)'"
                                 }

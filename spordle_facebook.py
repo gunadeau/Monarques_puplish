@@ -483,7 +483,8 @@ class SpordleScheduleExtractor:
             return team_name
         
         # Pattern pour "TOROS 3 - 9U - B - Masculin - LOTBINIÈRE" -> "TOROS 3 9UB"
-        match = re.match(r'^([A-Z]+(?:\s+\d+)?).*?(\d+U).*?([AB])', team_name)
+        # Et "MONARQUES BLEU 13UAA" -> "MONARQUES BLEU 13UAA"
+        match = re.match(r'^([A-Za-zÀ-ÿ\-]+(?:\s+[A-Za-zÀ-ÿ0-9\-]+)*?)\s*(?:-)?\s*(\d+U|Junior|Senior|Midget|Bantam|Peewee|Moustique|Atome|Novice).*?([AB]{1,2})(?![A-Za-z])', team_name, re.IGNORECASE)
         if match:
             team_name_part = match.group(1).strip()
             age_group = match.group(2)
