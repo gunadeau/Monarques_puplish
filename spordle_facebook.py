@@ -447,12 +447,11 @@ class SpordleScheduleExtractor:
                         start_time = time_match.group(1)
                     
                     # Extraire les équipes
-                    team_elements = row.find_elements(By.XPATH, ".//td[contains(@class, 'column-homeTeamId')]//p[contains(@class, 'MuiTypography-displayInline')]")
+                    team_elements = row.find_elements(By.XPATH, ".//td[contains(@class, 'column-homeTeamId') or contains(@class, 'column-visitorTeamId')]//p[contains(@class, 'MuiTypography-displayInline')]")
                     teams = []
                     for team_el in team_elements:
                         team_text = team_el.text.strip()
-                        if (re.match(r'MONARQUES|TITANS|[A-Z]+.*\d+.*[A-Z]', team_text) and 
-                            not re.match(r'^Game|^Parc|^Terrain', team_text)):
+                        if len(team_text) > 2 and not re.match(r'^(?:Game|Parc|Terrain|Match)', team_text, re.IGNORECASE):
                             teams.append(team_text)
                     
                     # Extraire le lieu

@@ -285,11 +285,11 @@ function Get-SpordleMatches {
                                 }
                                 
                                 # Extraire les équipes
-                                $teamElements = $row.FindElementsByXPath(".//td[contains(@class, 'column-homeTeamId')]//p[contains(@class, 'MuiTypography-displayInline')]")
+                                $teamElements = $row.FindElementsByXPath(".//td[contains(@class, 'column-homeTeamId') or contains(@class, 'column-visitorTeamId')]//p[contains(@class, 'MuiTypography-displayInline')]")
                                 $teams = @()
                                 foreach ($teamEl in $teamElements) {
                                     $teamText = $teamEl.Text.Trim()
-                                    if ($teamText -match 'MONARQUES|TITANS|[A-Z]+.*\d+.*[A-Z]' -and $teamText -notmatch '^Game|^Parc|^Terrain') {
+                                    if ($teamText.Length -gt 2 -and $teamText -notmatch '^(?i)(Game|Parc|Terrain|Match)') {
                                         $teams += $teamText
                                     }
                                 }
