@@ -578,7 +578,7 @@ class FacebookPublisher:
             venue = re.sub(r" - Baseball.*$", "", match.venue)
             table_content += f"⏰ {match.time}  {match.home_team}  vs  {match.away_team}  🏟️ {venue}\n"
         automated_message = "*** https://page.spordle.com/fr/seigneuries-aa/teams ***"
-        return f"{intro_message}{table_header}{table_content}\n{automated_message}\n\nMerci à nos commanditaires @caissechaudiere, @caissedelevis, @transkid/jm transit et @académie de baseball la relève !"
+        return f"{intro_message}{table_header}{table_content}\n{automated_message}\n\nMerci à nos commanditaires @[100063500592919] !"
     
     def _attach_sponsor_images(self, post_id: str):
         """Attache les images des commanditaires"""
