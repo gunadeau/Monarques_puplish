@@ -144,8 +144,31 @@ class SpordleScheduleExtractor:
             options.add_argument('--no-sandbox')
             options.add_argument('--disable-dev-shm-usage')
             
-            # Configuration pour GitHub Actions (environnement CI)
+            # Détection robuste de la version de Chrome dans TOUS les environnements
             major_version = None
+            try:
+                import subprocess
+                import platform
+                
+                cmd = []
+                system = platform.system()
+                if system == 'Linux':
+                    cmd = ['google-chrome', '--version']
+                elif system == 'Darwin':
+                    cmd = ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '--version']
+                elif system == 'Windows':
+                    cmd = ['reg', 'query', 'HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon', '/v', 'version']
+                    
+                if cmd:
+                    result = subprocess.run(cmd, capture_output=True, text=True)
+                    match = re.search(r'(\d+)\.', result.stdout)
+                    if match:
+                        major_version = int(match.group(1))
+                        logger.info(f"Version majeure de Chrome détectée localement : {major_version}")
+            except Exception as e:
+                logger.warning(f"Impossible de détecter la version de Chrome localement: {e}")
+
+            # Configuration pour GitHub Actions (environnement CI)
             if os.getenv('GITHUB_ACTIONS'):
                 # Forcer l'utilisation du bon binaire Chrome pour éviter que le système n'utilise Chromium ou une ancienne version
                 chrome_bin = '/usr/bin/google-chrome'
@@ -160,16 +183,16 @@ class SpordleScheduleExtractor:
                 options.add_argument('--window-size=1920,1080')
                 logger.info("Mode GitHub Actions détecté - Chrome en mode headless")
                 
-                # Détecter la version de Chrome
+                # Détecter la version de Chrome dans CI
                 try:
                     import subprocess
                     result = subprocess.run([chrome_bin, '--version'], capture_output=True, text=True)
                     match = re.search(r'(\d+)\.', result.stdout)
                     if match:
                         major_version = int(match.group(1))
-                        logger.info(f"Version majeure de Chrome détectée : {major_version}")
+                        logger.info(f"Version majeure de Chrome détectée dans CI : {major_version}")
                 except Exception as e:
-                    logger.warning(f"Impossible de détecter la version de Chrome: {e}")
+                    logger.warning(f"Impossible de détecter la version de Chrome dans CI: {e}")
             
             if major_version:
                 self.driver = uc.Chrome(options=options, version_main=major_version)
