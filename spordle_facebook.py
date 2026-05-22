@@ -570,7 +570,7 @@ class FacebookPublisher:
     def _build_message(self, matches: List[Match], test_date: datetime) -> str:
         """Construit le message Facebook"""
         current_date = test_date.strftime("%Y-%m-%d")
-        intro_message = "Venez encourager nos Monarques ! Voici les matchs de la journée sur nos terrains:\n\n"
+        intro_message = "Venez encourager nos Monarques ! Voici les matchs de la journée:\n\n"
         table_header = f"⚾ Matchs de la journée ({current_date}) ⚾\n\n"
         table_content = ""
         
